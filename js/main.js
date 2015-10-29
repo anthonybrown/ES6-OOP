@@ -1,23 +1,25 @@
 /* CREATION OF A CLASS*/
+
 /* CREATION OF A STANDARD FACTORY OBJECT */
+
 function createPerson( firstName, lastName ) {
 
-var person = {
-  get firstName () {
-    return firstName;
-  },
+  var person = {
+    get firstName () {
+      return firstName;
+    },
 
-  get lastName () {
-    return lastName;
-  },
+    get lastName () {
+      return lastName;
+    },
 
-  greet: function ( name ) {
-    console.log('Hello, ' + name + ' my name is ' + firstName );
-      return 'Hello, ' + name + ' my name is ' + firstName + ' ' + lastName;
-  }
- };
+    greet: function ( name ) {
+      console.log('Hello, ' + name + ' my name is ' + firstName );
+        return 'Hello, '    + name + ' my name is ' + firstName + ' ' + lastName;
+    }
+   };
 
-  return person;
+    return person;
 }
 
 var person1 = createPerson( 'Tom', 'Jones' );
@@ -35,15 +37,14 @@ function Person1 (config) {// i like using a config object instead of rememberin
 	this.firstName = config.firstName;
 	this.lastName  = config.lastName;
 
-	//Object.defineProperty(this, 'firstName', {
-	//	get: function () { return firstName; }
+	//Object.defineProperty(this, 'firstName', { // would make our factor have some privacy.
+	//	get: function () { return firstName; }// we don't want to define functions in our Factory.
 	//});
-
 }
 
-Person1.prototype.greet = function ( name ) {
-	return 'Hello , ' + name + ' I am ' + this.firstName + ' ' + this.lastName;
-}
+Person1.prototype.greet = function ( name ) {// we define our methods on the prototype, it has many benefits.
+	return 'Hello , ' + name + ' I am ' + this.firstName + ' ' + this.lastName + '.';
+};
 
 var person1 = new Person1({ firstName: 'Tommy', lastName: 'Bolan' });
 var person2 = new Person1({ firstName: 'Ben', lastName: 'Cherry' });
@@ -72,7 +73,7 @@ var Person = (function () {
 
   Person.prototype.greet = function ( name ) {
     return 'Hello, ' + name + ' I am ' + this[firstNameSymbol] + ' ' + this[lastNameSymbol];
-  }
+  };
   // with this approach we have lost access
   // to our firstName and lastName properties
   // so we need to define them on the prototype
@@ -98,7 +99,7 @@ var Person = (function () {
 
   Person.renamePerson = function (person, lastName) {
     person[lastNameSymbol] = lastName;
-  }
+  };
 
   return Person;
 
