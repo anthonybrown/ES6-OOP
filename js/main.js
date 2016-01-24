@@ -28,8 +28,9 @@ var person2 = createPerson( 'Ben', 'Stiller' );
 var output = document.getElementById('output');
 person1.greet('Tony');
 output.innerHTML += person1.greet('Tony') + '<br />';
-person2.greet('Betty');
-output.innerHTML += person2.greet('Betty') + '<br />';
+person2.greet('Klaudia');
+output.innerHTML += person2.greet('Klaudia') + '<br />';
+
 
 /* USING A FACTORY FUNCTION */
 function Person1 (config) {// i like using a config object instead of remembering a bunch of arguments
@@ -37,29 +38,30 @@ function Person1 (config) {// i like using a config object instead of rememberin
 	this.firstName = config.firstName;
 	this.lastName  = config.lastName;
 
-	//Object.defineProperty(this, 'firstName', { // would make our factor have some privacy.
+	//Object.defineProperty(this, 'firstName', { // would make our factory have some privacy.
 	//	get: function () { return firstName; }// we don't want to define functions in our Factory.
 	//});
 }
 
 Person1.prototype.greet = function ( name ) {// we define our methods on the prototype, it has many benefits.
-	return 'Hello , ' + name + ' I am ' + this.firstName + ' ' + this.lastName + '.';
+	return 'Hello, ' + name + ' I am ' + this.firstName + ' ' + this.lastName + '.';
 };
 
 var person1 = new Person1({ firstName: 'Tommy', lastName: 'Bolan' });
 var person2 = new Person1({ firstName: 'Ben', lastName: 'Cherry' });
 
 var output2 = document.getElementById('output2');
+
 person1.greet('Tony');
 output2.innerHTML += person1.greet('Tony') + '<br />';
-person2.greet('Betty');
-output2.innerHTML += person2.greet('Betty') + '<br />';
+person2.greet('Klaudia');
+output2.innerHTML += person2.greet('Klaudia') + '<br />';
 
 /* USING SYMBOLS FOR PRIVACY */
 // We can wrap the function in an IIFE
 // to protect our members on the Person data type
 
-var Person = (function () {
+var Person = (function ( config ) {
   // we are creating a new Data Type called Person
   // with symbols we can create privacy
   var firstNameSymbol = Symbol();
@@ -69,6 +71,7 @@ var Person = (function () {
 
     this[firstNameSymbol] = config.firstName;
     this[lastNameSymbol]  = config.lastName;
+
 }
 
   Person.prototype.greet = function ( name ) {
@@ -85,7 +88,7 @@ var Person = (function () {
   });
 
   // these properties are now getters and we now
-  // have access to the first and last name properties now
+  // have access to the first and last name properties
   Object.defineProperty(Person.prototype, 'lastName', {
     get:  function () { return this[lastNameSymbol]; }
   });
@@ -110,7 +113,25 @@ var person = new Person({
 	firstName :'Joey',
 	lastName  :'Buttafuccuo'
 });
+
+var person2 = new Person({
+	firstName : 'Amy',
+	lastName  : 'Fisher'
+});
+
+var person3 = new Person({
+	firstName: 'Tony',
+	lastName : 'Brown',
+	renamePerson: 'Brownie'
+});
+
 var output3 = document.getElementById('output3');
 person.greet('Lolita');
 
-output3.innerHTML += person.greet('Lolita');
+
+output3.innerHTML += person.greet('Lolita') + '<br>';
+output3.innerHTML += '<br />';
+output3.innerHTML += person2.greet('Tony') + '<br />';
+
+//output3.innerHTML += person3.renamePerson('Roy', 'Rogers');
+//output3.innerHTML += person2.renamePerson("Roy", "Rogers");

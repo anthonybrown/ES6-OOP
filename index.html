@@ -13,18 +13,18 @@
 </head>
 <body onload="prettyPrint()" class='clear'>
 	<div class='wrap'>
-	<header class='clear'>
+	<header class='header'>
 		<h1 class='header-title clear'>Checking out ES6</h1>
-		<nav class='clear'>
+		<nav class='main-nav'>
 			<ul>
-				<li><a href="/">Factory/DataType</a></li>
+				<li><a href="/">Factory / DataType</a></li>
 				<li><a href="class.html">The Class</a></li>
 				<li><a href="private.html">Privacy</a></li>
 				<li><a href="parasitic.html">Parasitic Inheritence</a></li>
 			</ul>
 		</nav>
 	</header>
-	<section class="main">
+	<section class="main clear">
 		<article class="main-article">
 			<h1>Object-Oriented ES6</h1>
 			<h3>Factory function pattern</h3>
@@ -53,37 +53,37 @@ var person1 = createPerson( 'Tom', 'Jones' );
 var person2 = createPerson( 'Ben', 'Stiller' );
 
 person1.greet('Tony');
-person1.greet('Betty');
+person1.greet('Klaudia');
 </pre>
 			<h5>Output 1</h5>
 		<div id='output'></div>
 		</article>
 		<article>
 			<pre class="prettyprint custom linenums">
+function Person (config) {
+// I like using a config object instead of remembering a bunch of arguments
 
-function Person (config) {// i like using a config object instead of remembering a bunch of arguments
+this.firstName = config.firstName;
+this.lastName  = config.lastName;
 
-	this.firstName = config.firstName;
-	this.lastName  = config.lastName;
+// we can keep some privacy by doing this
+// but it's not a good idea
+//Object.defineProperty(this, 'firstName', {
+//	get: function () { return firstName; }
+//});
 
-	// we can keep some privacy by doing this
-	// but it's not a good idea
-	//Object.defineProperty(this, 'firstName', {
-	//	get: function () { return firstName; }
-	//});
+// This method can be cpu intensive
+// it creates a new function everytime a new instance is
+// created, we will move it out into the prototype
 
-	// This method can be cpu intensive
-	// it creates a new function everytime a new instance is
-	// created, we will move it out into the prototype
-
-	//this.greet		 = function (name) {
-	//	return 'Hello, ' + name + ' my name is ' + firstName;
-	//};
+//this.greet		 = function (name) {
+//	return 'Hello, ' + name + ' my name is ' + firstName;
+//};
 
 }
 
 Person.prototype.greet = function ( name ) {
-	return 'Hello , ' + name + ' I am ' + this.firstName + ' ' + this.lastName;
+	return 'Hello, ' + name + ' I am ' + this.firstName + ' ' + this.lastName;
 }
 
 var person1 = new Person({ firstName: 'Tommy', lastName: 'Bolan' });
@@ -92,8 +92,8 @@ var person2 = new Person({ firstName: 'Ben', lastName: 'Cherry' });
 var output = document.getElementById('output');
 person1.greet('Tony');
 output.innerHTML += person1.greet('Tony');
-person2.greet('Betty');
-output.innerHTML += person2.greet('Betty');
+person2.greet('Klaudia');
+output.innerHTML += person2.greet('Klaudia');
 			</pre>
 			<h5>Output 2</h5>
 		</article>
@@ -103,7 +103,7 @@ output.innerHTML += person2.greet('Betty');
 			<p>
 				We will use symbols to gain privacy in our code.
 			</p>
-			<pre class="prettyprint">
+			<pre class="prettyprint linenums">
 var Person = (function () {
 
   // we are creating a new Data Type called Person
